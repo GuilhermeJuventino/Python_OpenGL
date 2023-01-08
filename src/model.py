@@ -1,5 +1,6 @@
+import pygame
 import numpy as np
-
+import glm
 
 class Triangle:
     def __init__(self, app):
@@ -19,10 +20,34 @@ class Triangle:
 
         # vertex array object
         self.vao = self.get_vao()
+
+        # model matrix
+        self.m_model = self.get_model_matrix()
+
+        self.on_init()
     
     def render(self):
+        # updating the model
+        self.update()
+
         # rendering the model
         self.vao.render()
+    
+    def on_init(self):
+        # adding the model matrix to the vertex shader
+        self.shader_program["m_model"].write(self.m_model)
+    
+    def get_model_matrix(self):
+        # getting the model matrix
+        m_model = glm.mat4()
+        return m_model
+    
+    def update(self):
+        # rotating the model matrix
+        m_model = glm.rotate(self.m_model, pygame.time.get_ticks() * 0.001, glm.vec3(0, 0, 1))
+        
+        # sending the updated model matrix to the vertex shader
+        self.shader_program["m_model"].write(m_model)
     
     def destroy(self):
         # destroying the model's resources (vertex buffer, vertex array, shader program, etc) because OpenGL has no garbage collector
