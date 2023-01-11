@@ -3,6 +3,8 @@ import moderngl as mgl
 from sys import exit
 
 from model import *
+from cube import *
+from camera import *
 
 
 class GraphicsEngine:
@@ -22,16 +24,20 @@ class GraphicsEngine:
         # detecting OpenGL context
         self.ctx = mgl.create_context()
 
+        self.ctx.enable(mgl.DEPTH_TEST)
+
         # creating an object to track time
         self.clock = pygame.time.Clock()
+
+        # engine's game camera
+        self.camera = Camera(self)
 
         #vertex_data_1 = [(-0.6, -0.8, 0.0), (0.6, -0.8, 0.0), (0.6, 0.8, 0.0)]
         #vertex_data_2 = [(-0.6, -0.8, 0.0), (0.6, 0.8, 0.0), (-0.6, 0.8, 0.0)]
 
         # scene
-        self.scene = Triangle(self)
-        #self.triangle_1 = Triangle(self, vertex_data_1)
-        #self.triangle_2 = Triangle(self, vertex_data_2)
+        #self.scene = Triangle(self)
+        self.cube = Cube(self)
     
     def check_events(self):
         # event loop
@@ -39,12 +45,14 @@ class GraphicsEngine:
 
             # checking if the program should close
             if event.type == pygame.QUIT:
-                self.scene.destroy()
+                #self.scene.destroy()
+                self.cube.destroy()
                 pygame.quit()
                 exit()
             
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.scene.destroy()
+                #self.scene.destroy()
+                self.cube.destroy()
                 pygame.quit()
                 exit()
     
@@ -56,7 +64,8 @@ class GraphicsEngine:
         self.ctx.clear(color=(0.08, 0.16, 0.18))
 
         # rendering stuff
-        self.scene.render()
+        #self.scene.render()
+        self.cube.render()
         #self.triangle_1.render()
         #self.triangle_2.render()
 

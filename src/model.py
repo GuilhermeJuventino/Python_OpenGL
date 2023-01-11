@@ -34,7 +34,9 @@ class Triangle:
         self.vao.render()
     
     def on_init(self):
-        # adding the model matrix to the vertex shader
+        # adding the model, view, and projection matricies to the vertex shader
+        self.shader_program["m_proj"].write(self.app.camera.m_proj)
+        self.shader_program["m_view"].write(self.app.camera.m_view)
         self.shader_program["m_model"].write(self.m_model)
     
     def get_model_matrix(self):
@@ -44,7 +46,7 @@ class Triangle:
     
     def update(self):
         # rotating the model matrix
-        m_model = glm.rotate(self.m_model, pygame.time.get_ticks() * 0.001, glm.vec3(0, 0, 1))
+        m_model = glm.rotate(self.m_model, pygame.time.get_ticks() * 0.001, glm.vec3(1, 0, 0))
         
         # sending the updated model matrix to the vertex shader
         self.shader_program["m_model"].write(m_model)
