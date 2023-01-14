@@ -19,7 +19,7 @@ class GraphicsEngine:
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
 
         # creating OpenGL context
-        pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF)
+        pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF | pygame.RESIZABLE)
 
         # detecting OpenGL context
         self.ctx = mgl.create_context()
@@ -28,6 +28,9 @@ class GraphicsEngine:
 
         # creating an object to track time
         self.clock = pygame.time.Clock()
+
+        # makes the mouse cursor invisible when inside the window
+        pygame.mouse.set_visible(False)
 
         # engine's game camera
         self.camera = Camera(self)
@@ -55,7 +58,11 @@ class GraphicsEngine:
                 self.cube.destroy()
                 pygame.quit()
                 exit()
-    
+
+            # swap between windowed and full-screen
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                pygame.display.toggle_fullscreen()
+             
     def destroy_all(self):
         pass
             
