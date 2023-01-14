@@ -1,0 +1,27 @@
+{
+  "created_at": "2023-01-14T18:43:52.116988",
+  "version": "0.1",
+  "mtllibs": [
+    "Wooden Barrel.mtl"
+  ],
+  "vertex_buffers": [
+    {
+      "material": "Material",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 0,
+      "byte_length": 576
+    },
+    {
+      "material": "Metal_Strip",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 576,
+      "byte_length": 508032
+    },
+    {
+      "material": "Side_Wood",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 508608,
+      "byte_length": 651840
+    }
+  ]
+}

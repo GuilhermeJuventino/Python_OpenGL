@@ -11,7 +11,7 @@ class Camera:
         self.aspect_ratio = self.app.WIN_SIZE[0] / self.app.WIN_SIZE[1]
 
         # camera's position
-        self.position = glm.vec3(2, 3, 3)
+        self.position = glm.vec3(2, 3, 34)
         
         # up vector
         self.up = glm.vec3(0, 1, 0)

@@ -5,6 +5,7 @@ from sys import exit
 from model import *
 from cube import *
 from camera import *
+from barrel import *
 
 
 class GraphicsEngine:
@@ -39,8 +40,9 @@ class GraphicsEngine:
         #vertex_data_2 = [(-0.6, -0.8, 0.0), (0.6, 0.8, 0.0), (-0.6, 0.8, 0.0)]
 
         # scene
+        self.barrel = Barrel(self)
         #self.scene = Triangle(self)
-        self.cube = Cube(self)
+        #self.cube = Cube(self)
     
     def check_events(self):
         # event loop
@@ -49,13 +51,15 @@ class GraphicsEngine:
             # checking if the program should close
             if event.type == pygame.QUIT:
                 #self.scene.destroy()
-                self.cube.destroy()
+                #self.cube.destroy()
+                self.barrel.destroy()
                 pygame.quit()
                 exit()
             
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 #self.scene.destroy()
-                self.cube.destroy()
+                #self.cube.destroy()
+                self.barrel.destroy()
                 pygame.quit()
                 exit()
 
@@ -72,9 +76,10 @@ class GraphicsEngine:
 
         # rendering stuff
         #self.scene.render()
-        self.cube.render()
+        #self.cube.render()
         #self.triangle_1.render()
         #self.triangle_2.render()
+        self.barrel.render()
 
         # changing the title of the window, and displaying the current framerate
         pygame.display.set_caption(f"Pygame OpenGL - FPS: {self.clock.get_fps() :.1f}")
