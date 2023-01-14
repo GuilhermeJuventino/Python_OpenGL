@@ -13,21 +13,32 @@ class Cube:
         self.vao = self.get_vao() # Vertex Array Object
         self.m_model = self.get_model_matrix() # Model Matrix
 
+        self.texture = self.get_texture("textures/test.png")
+
         self.on_init()
-    
+
+    def get_texture(self, path):
+        texture = pygame.image.load(path).convert()
+        texture = pygame.transform.flip(texture, flip_x=False, flip_y=True)
+        
+        texture = self.ctx.texture(size=texture.get_size(), components=3,
+        data=pygame.image.tostring(texture, "RGB"))
+
+        return texture
+
     def get_vertex_data(self):
         # A list of points containing xyz coordinates and rgb color values
         verticies = [
             # x   y  z     r    g    b
-            (-1, -1, 1, 0.5, 0.0, 0.0),  # IDX 0:
-            (1, -1, 1, 0.0, 0.5, 0.0),  # IDX 1:
-            (1, 1, 1, 0.0, 0.0, 0.5),  # IDX 2:
-            (-1, 1, 1, 0.5, 0.5, 0.5),   # IDX 3:
+            (-1, -1, 1, 0.5, 0.0, 0.0, 0.0, 0.0),  # IDX 0:
+            (1, -1, 1, 0.0, 0.5, 0.0, 1.0, 0.0),  # IDX 1:
+            (1, 1, 1, 0.0, 0.0, 0.5, 1.0, 1.0),  # IDX 2:
+            (-1, 1, 1, 0.5, 0.5, 0.5, 0.0, 1.0),   # IDX 3:
 
-            (-1, 1, -1, 0.5, 0.0, 0.0), # IDX 4
-            (-1, -1, -1, 0.0, 0.5, 0.0), # IDX 5
-            (1, -1, -1, 0.0, 0.0, 0.5), # IDX 6
-            (1, 1, -1, 0.5, 0.5, 0.5) # IDX 7
+            (-1, 1, -1, 0.5, 0.0, 0.0, 1.0, 1.0), # IDX 4
+            (-1, -1, -1, 0.0, 0.5, 0.0, 1.0, 0.0), # IDX 5
+            (1, -1, -1, 0.0, 0.0, 0.5, 0.0, 0.0), # IDX 6
+            (1, 1, -1, 0.5, 0.5, 0.5, 0.0, 1.0) # IDX 7
         ]
 
         # A list of triangles based on the indicies of the verticies list
@@ -76,11 +87,13 @@ class Cube:
         return program
 
     def get_vao(self):
-        vao = self.ctx.vertex_array(self.shader_program, [(self.vbo, "3f 3f", "in_position", "in_color")])
+        vao = self.ctx.vertex_array(self.shader_program, [(self.vbo, "3f 3f 2f", "in_position", "in_color", "in_texcoord")])
 
         return vao
 
     def on_init(self):
+        self.shader_program["tex0"] = 0
+        self.texture.use()
         # adding the model, view, and projection matricies to the shader program
         self.shader_program["m_proj"].write(self.app.camera.m_proj)
         self.shader_program["m_view"].write(self.app.camera.m_view)
