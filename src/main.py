@@ -25,10 +25,12 @@ class GraphicsEngine:
         # detecting OpenGL context
         self.ctx = mgl.create_context()
 
-        self.ctx.enable(mgl.DEPTH_TEST)
+        self.ctx.enable(mgl.DEPTH_TEST | mgl.CULL_FACE)
 
         # creating an object to track time
         self.clock = pygame.time.Clock()
+
+        self.delta_time = 0
 
         # makes the mouse cursor invisible when inside the window
         pygame.mouse.set_visible(False)
@@ -45,6 +47,9 @@ class GraphicsEngine:
         #self.cube = Cube(self)
     
     def check_events(self):
+        # getting a list of keys that are being pressed
+        keys = pygame.key.get_pressed()
+
         # event loop
         for event in pygame.event.get():
 
@@ -64,7 +69,7 @@ class GraphicsEngine:
                 exit()
 
             # swap between windowed and full-screen
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            if keys[pygame.K_LALT] and keys[pygame.K_RETURN]:
                 pygame.display.toggle_fullscreen()
              
     def destroy_all(self):
@@ -93,11 +98,14 @@ class GraphicsEngine:
             # checking for events every frame
             self.check_events()
 
+            self.camera.update()
+
             # updating and drawing every frame
             self.render()
 
             # set framerate
-            self.clock.tick(60)
+            self.delta_time = self.clock.tick(60)
+
 
 
 if __name__ == "__main__":

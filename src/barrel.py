@@ -72,6 +72,7 @@ class Barrel:
         
         # sending the updated model matrix to the vertex shader
         self.shader_program["m_model"].write(m_model)
+        self.shader_program["m_view"].write(self.app.camera.m_view)
     
     def destroy(self):
         # destroying the model's resources (vertex buffer, vertex array, shader program, etc) because OpenGL has no garbage collector
