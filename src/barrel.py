@@ -53,7 +53,16 @@ class Barrel:
         self.vao.render()
     
     def on_init(self):
+        # adding light to the fragment shader
+        self.shader_program["light.position"].write(self.app.light.pos)
+        self.shader_program["light.Ia"].write(self.app.light.Ia)
+        self.shader_program["light.Id"].write(self.app.light.Id)
+        self.shader_program["light.Is"].write(self.app.light.Is)
+
+        # adding texture uv to the fragment shader
         self.shader_program["uv_0"] = 0
+        
+        # enabling the texture
         self.texture_wood.use()
         #self.texture.use()
         # adding the model, view, and projection matricies to the vertex shader
@@ -73,6 +82,9 @@ class Barrel:
         # sending the updated model matrix to the vertex shader
         self.shader_program["m_model"].write(m_model)
         self.shader_program["m_view"].write(self.app.camera.m_view)
+
+        # sending the current camera position to the fragment shader
+        self.shader_program["cam_pos"].write(self.app.camera.position)
     
     def destroy(self):
         # destroying the model's resources (vertex buffer, vertex array, shader program, etc) because OpenGL has no garbage collector

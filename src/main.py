@@ -6,6 +6,7 @@ from model import *
 from cube import *
 from camera import *
 from barrel import *
+from light import *
 
 
 class GraphicsEngine:
@@ -37,6 +38,8 @@ class GraphicsEngine:
 
         # engine's game camera
         self.camera = Camera(self)
+
+        self.light = Light()
 
         #vertex_data_1 = [(-0.6, -0.8, 0.0), (0.6, -0.8, 0.0), (0.6, 0.8, 0.0)]
         #vertex_data_2 = [(-0.6, -0.8, 0.0), (0.6, 0.8, 0.0), (-0.6, 0.8, 0.0)]
