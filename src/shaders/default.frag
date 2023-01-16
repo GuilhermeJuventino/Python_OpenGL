@@ -57,11 +57,18 @@ vec3 getLight(vec3 color) {
 }
 
 void main() {
+    float gamma = 2.2;
     // color values of the model's texture
     vec3 color = texture(uv_0, out_texcoord_0).rgb;
 
+    // bringing color to linear space
+    color = pow(color, vec3(gamma));
+
     // updating the color values taking lighting into account
     color = getLight(color);
+
+    // applying gamma correction
+    color = pow(color, 1 / vec3(gamma));
 
     // final fragment color values of the texture that gets rendered to the screen
     fragColor = vec4(color, 1.0);
